@@ -57,17 +57,92 @@ Além disso, algumas outras configurações e macros foram criadas e podem ser c
 
 Após algum tempo de utilização de editores específicos para TeX, percebi a necessidade de centralizar todo este desenvolvimento no mesmo editor de outras linguagens, visando a redução de memória, espaço, e otimização de tempo entre troca de ambientes. Por essas e outras vantagens, decidi fazer do VSCode o meu editor de TeX principal na estação de trabalho. Apesar disso, o fato de depender de extensões e softwares terceiros para esse setup não agrada muito, ao ter que abrir mão dos diversos recursos próprios para o LaTeX que as outras aplicações específicas apresentam.
 
-Entretanto, estes passos abaixo apresentam como configurar o melhor ambiente TeX, utilizando o Visual Studio Code como editor.
+Entretanto, essas etapas abaixo mostram como configurar o melhor ambiente TeX, utilizando o Visual Studio Code como editor (supondo que já o tem instalado em sua estação):
 
-<https://www.youtube.com/watch?v=4lyHIQl4VM8&ab_channel=FedericoTartarini>
-<https://github.com/James-Yu/LaTeX-Workshop/wiki/Compile>
+1. Instalar a distribuição MikTeX: escolhida pela sua facilidade de instalação e utilização no Windows. Se não fossem essas vantagens, a indicada seria o TeX-Live, pois já fornece consigo o ambiente perl (necessário para a compilação do LaTeX);
+2. Como instalamos o MikTeX, também é necessário instalar alguma ferramenta para criar um ambiente de desenvolvimento de perl na máquina. A escolhida, e mais apropriada para este caso é o [Strawberry Perl][9], próprio para Windows, que inclui binários, compiladores, ferramentas, bibliotecas externas e bancos de dados. Baixe o arquivo para sua versão e prossiga com a instalação padrão;
+3. Instalar a extensão LaTeX Workshop (Extension ID: `James-Yu.latex-workshop`). Para maiores informações sobre esta extensão, verificar [documentação do projeto][10];
+4. Realizar configurações adicionais de acordo com sua preferência:
+
+```json
+{
+  "latex-workshop.view.pdf.viewer": "external",
+  //"latex-workshop.latex.outDir": "PDF",
+  "latex-workshop.latex.autoClean.run": "onBuilt",
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "pdflatex",
+      "command": "pdflatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "bibtex",
+      "command": "bibtex",
+      "args": [
+        "%DOCFILE%"
+      ],
+      "env": {}
+    }
+  ]
+}
+```
+
+> **Nota:** lembre-se de atualizar o MikTeX e todos os pacotes na primeira utilização.
 
 <!-- VOLTAR AO ÍNICIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
 ## 2. Linux
 
-Differences between texlive packages in Linux: <https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux>
+Da mesma forma do Windows, o setup de desenvolvimento de um projeto TeX também necessita de dois elementos principais: o editor e a distribuição TeX (responsável pela compilação). No Linux, a distribuição mais indicada é o TeX-Live, que possibilita uma simples instalação e disponibiliza tudo o que é preciso para tal desenvolvimento. Sua instalação pode ser feita com o seguinte comando:
+
+```bash
+sudo apt install texlive
+```
+
+Entretanto, há alguns pacotes adicionais que carregam mais informações, como o `texlive-latex-base`, `texlive-latex-recommended`, `texlive-latex-extra`, `texlive-full`, entre outros.
+
+**Diferenças entre os pacotes TeX-Live para o Linux:**
+
+> **Nota:** essa discussão foi baseada em uma nova instalação do Debian GNU/Linux. Sendo assim, os processos serão semelhantes para as distribuições *Debian-based*. Para as demais, utilizar dos recursos disponíveis para cada uma.
+
+A tabela abaixo mostra o tamanho dos arquivos que seriam baixados e o espaço em disco adicional que seria usado para cada pacote instalado com o comando `apt install`. Cada tamanho exibido inclui o tamanho do pacote que está sendo instalado e o tamanho de todas as dependências que seriam instaladas junto com ele.
+
+| Pacote                      | Arquivo | Espaço no disco |
+| :-------------------------- | :------ | :-------------- |
+| `texlive-latex-base`        | 59 MB   | 216 MB          |
+| `texlive-latex-recommended` | 74 MB   | 248 MB          |
+| `texlive-pictures`          | 83 MB   | 277 MB          |
+| `texlive-fonts-recommended` | 83 MB   | 281 MB          |
+| `texlive`                   | 98 MB   | 314 MB          |
+| `texlive-plain-generic`     | 82 MB   | 261 MB          |
+| `texlive-latex-extra`       | 144 MB  | 452 MB          |
+| `texlive-full`              | 2804 MB | 5358 MB         |
+
+Para maiores informações e diferenciações entre cada pacote, visite a discussão do **tex.stackexchange**: [Differences between texlive packages in Linux][11].
+
+O editor para este ambiente também é o VSCode (vide seção [1.2. VSCode](#12-vscode) para maiores informações). Entretanto, sinta-se livre para utilizar qualquer outro dentre os já citados.
+
+A título de curiosidade, o editor VIM possui uma extensão para o LaTeX chamado `vim-latex-preview` que possibilita o debug e visualização de PDF no editor. Para mais informações, leia o artigo da Universidade do Texas: [Getting started with LaTeX and Vim][12].
 
 ### WSL
 
@@ -88,5 +163,9 @@ Embora o WSL seja o sub-sistema de Linux para o Windows, a configuração de um 
 [6]: ../../Build/TeXStudio/
 [7]: https://www.lyx.org/
 [8]: xm1math.net/texmaker/
+[9]: https://strawberryperl.com/
+[10]: https://github.com/James-Yu/LaTeX-Workshop/wiki
+[11]: https://tex.stackexchange.com/questions/245982/differences-between-texlive-packages-in-linux
+[12]: https://web.ma.utexas.edu/users/vandyke/notes/getting_started_latex_vim/getting_started.pdf
 
 <!-- IMAGES -->
