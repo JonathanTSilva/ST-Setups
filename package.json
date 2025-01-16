@@ -1,0 +1,28 @@
+{
+  "name": "st-setups",
+  "version": "1.0.0",
+  "description": "Um guia de como configurar um ambiente desktop para programar em LaTeX.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonathanTSilva/ST-Setups.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JonathanTSilva/ST-Setups/issues"
+  },
+  "homepage": "https://github.com/JonathanTSilva/ST-Setups#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
