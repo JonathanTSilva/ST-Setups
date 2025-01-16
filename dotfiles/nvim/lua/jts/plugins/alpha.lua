@@ -46,7 +46,7 @@ return {
 
           local color_name = colors[line:sub(j, j)]
           if color_name then
-              table.insert(highlights, { color_name, opos, pos })
+            table.insert(highlights, { color_name, opos, pos })
           end
         end
 
@@ -75,10 +75,10 @@ return {
       ["b"] = { fg = "#3399ff", ctermfg = 33 },
       ["a"] = { fg = "#53C670", ctermfg = 35 },
       ["g"] = { fg = "#39ac56", ctermfg = 29 },
-      ["h"] = { fg = "#33994d", ctermfg = 23},
-      ["i"] = { fg = "#33994d", bg = "#39ac56", ctermfg = 23, ctermbg = 29},
+      ["h"] = { fg = "#33994d", ctermfg = 23 },
+      ["i"] = { fg = "#33994d", bg = "#39ac56", ctermfg = 23, ctermbg = 29 },
       ["j"] = { fg = "#53C670", bg = "#33994d", ctermfg = 35, ctermbg = 23 },
-      ["k"] = { fg = "#30A572", ctermfg = 36},
+      ["k"] = { fg = "#30A572", ctermfg = 36 },
     }, {
       [[  kkkka       gggg  ]],
       [[  kkkkaa      ggggg ]],
@@ -106,7 +106,7 @@ return {
       dashboard.button("SPC fs", "  Find word", "<cmd>Telescope live_grep<CR>"),
       dashboard.button("SPC wr", "󰁯  Restore session", "<cmd>SessionRestore<CR>"),
       dashboard.button("p", "󰂖  Update plugins", "<cmd>Lazy update<CR>"),
-      dashboard.button("s", "  Settings" , "<cmd>e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>"),
+      dashboard.button("s", "  Settings", "<cmd>e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>"),
       dashboard.button("q", "  Quit", "<cmd>qa<CR>"),
     }
 
@@ -122,26 +122,30 @@ return {
     -- }
 
     vim.api.nvim_create_autocmd("User", {
-        once = true,
-        pattern = "LazyVimStarted",
-        callback = function()
-          local stats = require("lazy").stats()
-          local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-          dashboard.section.footer.val = "⚡ Neovim loaded "
-            .. stats.loaded
-            .. "/"
-            .. stats.count
-            .. " plugins in "
-            .. ms
-            .. "ms"
-          pcall(vim.cmd.AlphaRedraw)
-        end,
-      })
+      once = true,
+      pattern = "LazyVimStarted",
+      callback = function()
+        local stats = require("lazy").stats()
+        local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+        dashboard.section.footer.val = "⚡ Neovim loaded "
+          .. stats.loaded
+          .. "/"
+          .. stats.count
+          .. " plugins in "
+          .. ms
+          .. "ms"
+        pcall(vim.cmd.AlphaRedraw)
+      end,
+    })
 
     -- Send config to alpha
     alpha.setup(dashboard.opts)
 
     -- Disable folding on alpha buffer
     vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
+
+    local keymap = vim.keymap
+
+    keymap.set("n", "<leader>a", "<cmd>Alpha<CR>", { desc = "Open Alpha screen" })
   end,
 }
